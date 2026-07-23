@@ -5,7 +5,7 @@ import gzip
 from dataclasses import dataclass, field
 from io import BytesIO
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 # ── Mock dataclasses imitating nfelib WrappedResponse ──────────────────
 
@@ -73,6 +73,26 @@ class ResCompany(models.Model):
     def action_reset_dfe_cooldown(self):
         self.ensure_one()
         self.sudo().write({"dfe_next_query": False})
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": "DF-e Query Cooldown Reset",
+                "message": f"The next query cooldown was cleared for {self.name}.",
+                "type": "success",
+                "sticky": False,
+            },
+        }
+
+    @api.model
+    def action_banner_toggle_dfe_mock_mode(self):
+        """Called from banner button — delegates to current company."""
+        return self.env.company.action_toggle_dfe_mock_mode()
+
+    @api.model
+    def action_banner_reset_dfe_cooldown(self):
+        """Called from banner button — delegates to current company."""
+        return self.env.company.action_reset_dfe_cooldown()
 
     def _dfe_consultar_distribuicao(self, **kwargs):
         self.ensure_one()

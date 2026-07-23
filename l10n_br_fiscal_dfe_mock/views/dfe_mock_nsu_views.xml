@@ -134,21 +134,11 @@
         <field name="code">records.action_reset_consumed()</field>
     </record>
 
-    <!-- Server action: toggle mock mode -->
-    <record id="action_toggle_dfe_mock_mode" model="ir.actions.server">
-        <field name="name">Toggle DF-e Mock Mode</field>
-        <field name="model_id" ref="base.model_res_company" />
-        <field name="state">code</field>
-        <field name="code">env.company.action_toggle_dfe_mock_mode()</field>
-    </record>
-
-    <!-- Server action: reset cooldown -->
-    <record id="action_reset_dfe_cooldown" model="ir.actions.server">
-        <field name="name">Reset Query Cooldown</field>
-        <field name="model_id" ref="base.model_res_company" />
-        <field name="state">code</field>
-        <field name="code">env.company.action_reset_dfe_cooldown()</field>
-    </record>
+    <!--
+        Toggle Mock Mode and Reset Query Cooldown are exposed as buttons in
+        the DF-e banner (see dfe_mock_banner_template.xml) instead of menu
+        items / server actions.
+    -->
 
     <!-- Menu: Mock submenu under DF-e Queries -->
     <menuitem
@@ -158,31 +148,17 @@
         sequence="88"
     />
     <menuitem
-        id="dfe_mock_toggle_menu"
-        action="action_toggle_dfe_mock_mode"
-        name="Toggle Mock Mode"
-        parent="dfe_mock_separator"
-        sequence="1"
-    />
-    <menuitem
         id="dfe_mock_nsu_menu"
         action="dfe_mock_nsu_action"
         name="Mock NSU Pool"
         parent="dfe_mock_separator"
-        sequence="2"
+        sequence="1"
     />
     <menuitem
         id="dfe_mock_generate_menu"
         action="action_generate_mock_nsu"
         name="Generate Mock NSU"
         parent="dfe_mock_separator"
-        sequence="3"
-    />
-    <menuitem
-        id="dfe_mock_reset_cooldown_menu"
-        action="action_reset_dfe_cooldown"
-        name="Reset Query Cooldown"
-        parent="dfe_mock_separator"
-        sequence="4"
+        sequence="2"
     />
 </odoo>
